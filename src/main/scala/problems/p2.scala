@@ -27,7 +27,7 @@ object p2a extends App {
 
 object p2b extends App {
 
-  // TOOD: can this b generalized by type or by n instead of one?
+  // TODO: can this be generalized by type or by n instead of one?
   def differByOne(a: String, b: String): Boolean = {
     if (a.length == b.length) {
       val upToFirstDifference = a.zip(b).dropWhile(t => t._1 == t._2)
@@ -37,5 +37,11 @@ object p2b extends App {
 
   val lines = Source.fromFile("./data/p2").getLines().toList
   val differByOnePairs = lines.combinations(2).filter(pair => differByOne(pair.head, pair.tail.head))
-  println(differByOnePairs.flatMap(p => p.head.zip(p.tail.head).filter(t => t._1 == t._2).map(_._1)).mkString)
+  val ans = differByOnePairs.map(p =>
+      p.head.zip(p.tail.head)
+        .filter(t => t._1 == t._2)
+        .map(_._1)
+        .mkString)
+
+  println(ans.next) // problem states there is only one
 }
