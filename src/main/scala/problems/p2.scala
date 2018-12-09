@@ -27,16 +27,11 @@ object p2a extends App {
 
 object p2b extends App {
 
-  // TODO: can this be generalized by type or by n instead of one?
-  def differByOne(a: String, b: String): Boolean = {
-    if (a.length == b.length) {
-      val upToFirstDifference = a.zip(b).dropWhile(t => t._1 == t._2)
-      upToFirstDifference.nonEmpty && upToFirstDifference.tail.forall(t => t._1 == t._2)
-    } else false
-  }
+  def differBy[A](a: Seq[A], b: Seq[A], n: Int): Boolean =
+    if (a.length == b.length) a.zip(b).filter(t => t._1 != t._2).lengthCompare(n) == 0 else false
 
   val lines = Source.fromFile("./data/p2").getLines().toList
-  val differByOnePairs = lines.combinations(2).filter(pair => differByOne(pair.head, pair.tail.head))
+  val differByOnePairs = lines.combinations(2).filter(pair => differBy(pair.head, pair.tail.head, 1))
   val ans = differByOnePairs.map(p =>
       p.head.zip(p.tail.head)
         .filter(t => t._1 == t._2)
