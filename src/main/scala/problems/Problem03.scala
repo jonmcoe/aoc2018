@@ -34,13 +34,14 @@ object Problem03 extends BaseProblem(3) {
 
   def solutionA = overlap.size
 
-  val takenInitialSeq : Seq[MarkedCell] = Seq.empty
-  val (taken2, overlap2) = rectangles.foldLeft(takenInitialSeq, overlapInitial)((t: (Seq[MarkedCell], Set[Cell]), r: Rectangle) => {
-    val newCells = generateMarkedCellSet(r)
-    (t._1 ++ newCells, t._2 ++ t._1.map(mc => Cell(mc.x, mc.y)).toSet.intersect(newCells.map(mc => Cell(mc.x, mc.y)).toSet))
-  })
-
-  // TODO: faster. use groupBy
   def solutionB =
-    taken2.groupBy(_.id).find(mcg => mcg._2.map(mc => Cell(mc.x, mc.y)).toSet.intersect(overlap).isEmpty).getOrElse((-1, List(MarkedCell(-1, -1, -1))))._1
+    rectangles
+      .flatMap(generateMarkedCellSet)  // all marked cells
+      .groupBy(mc => (mc.x, mc.y))     // group them by location. ex: (1,3) --> [(123, 1, 3), (456, 1, 3)
+      .filter(_._2.length == 1)        // filter out those with any overlap
+      .groupBy(_._2.head.id)           // group by id
+      .find(t => {
+        val rect = rectangles.find(_.id == t._1).get
+        t._2.size == rect.width * rect.height
+      }).get._1                       // select the id with number of entries equal to that of the initial rectangle
 }
