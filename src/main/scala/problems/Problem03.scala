@@ -43,6 +43,4 @@ object Problem03 extends BaseProblem(3) {
   // TODO: faster. use groupBy
   def solutionB =
     taken2.groupBy(_.id).find(mcg => mcg._2.map(mc => Cell(mc.x, mc.y)).toSet.intersect(overlap).isEmpty).getOrElse((-1, List(MarkedCell(-1, -1, -1))))._1
-
-  printBoth
 }

@@ -11,6 +11,4 @@ object Problem01 extends BaseProblem(1) {
 
   def solutionA = integers.sum
   def solutionB = findFirstRepeat()
-
-  printBoth
 }

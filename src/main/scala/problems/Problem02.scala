@@ -25,6 +25,4 @@ object Problem02 extends BaseProblem(2) {
         .map(_._1)
         .mkString)
       .next
-
-  printBoth
 }

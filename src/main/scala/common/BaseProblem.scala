@@ -3,7 +3,7 @@ package common
 
 import scala.io.Source
 
-abstract class BaseProblem(day: Int) extends App {
+abstract class BaseProblem(day: Int) {
 
   private val formatted = "%02d".format(day)
 
@@ -12,7 +12,7 @@ abstract class BaseProblem(day: Int) extends App {
   def solutionA: Any
   def solutionB: Any
 
-  def printBoth: Unit = {
+  def main(args: Array[String]): Unit = {
     println(solutionA)
     println(solutionB)
   }
