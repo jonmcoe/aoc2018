@@ -12,6 +12,7 @@ object Problem06 extends BaseProblem(6) {
     val asList = t._1.split(',')
     Cell(t._2 + 1, asList.head.toInt, asList.tail.head.trim.toInt)
   }
+  val startingLocations = startingCells.map(c => (c.x, c.y))
 
   def printGrid(x: Array[Array[Option[Int]]]) = println(x.transpose.map(_.map(_.getOrElse(9))).deep.mkString("\n"))
 
@@ -38,18 +39,22 @@ object Problem06 extends BaseProblem(6) {
       }).toSet
       val eligibleNeighbors = allNeighbors.groupBy(c => (c.x, c.y))
         .map(t => if (t._2.size == 1) t else (t._1, List(Cell(0, t._1._1, t._1._2)))).values.flatten
-      println(eligibleNeighbors.toList.sortBy(_.id))
       fillGrid(eligibleNeighbors)
     }
   }
   fillGrid(startingCells)
 
-  printGrid(grid)
-  val excluded = grid(0).toSet ++ grid.last.toSet ++ grid.map(_(0)).toSet ++ grid.map(_.last) ++ Set(Some(0)).toSet
+  val excluded = grid(0).toSet ++ grid.last.toSet ++ grid.map(_(0)).toSet ++ grid.map(_.last) ++ Set(Some(0))
   val biggest = grid.flatten.filter(!excluded.contains(_)).groupBy(identity).maxBy(_._2.length)
-  println(biggest)
 
   def solutionA = biggest._2.length
-  def solutionB = ""
+
+  val closeRegion = for {
+    y <- grid.indices
+    x <- grid(0).indices
+    if startingLocations.map(t => math.abs(t._1 - x) + math.abs(t._2 - y)).sum < 10000
+  } yield (x, y)
+
+  def solutionB = closeRegion.length
 
 }
