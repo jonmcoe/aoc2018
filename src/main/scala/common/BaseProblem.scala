@@ -3,11 +3,9 @@ package common
 
 import scala.io.Source
 
-abstract class BaseProblem(day: Int) {
+abstract class BaseProblem(day: Int, suffix: String = "") {
 
-  private val formatted = "%02d".format(day)
-
-  def readInput(): Iterator[String] = Source.fromFile(s"data/p$formatted").getLines()
+  def readInput(): Iterator[String] = Source.fromFile(s"data/p${"%02d".format(day) + suffix}").getLines()
 
   def solutionA: Any
   def solutionB: Any
