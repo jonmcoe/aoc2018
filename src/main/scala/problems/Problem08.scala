@@ -15,12 +15,11 @@ object Problem08 extends BaseProblem(8) {
 
     def buildTree(intSeq: List[Int]) : (List[Int], Node) = {
       val numChildren :: numMetadata :: content = intSeq
-      val (rem, children) = (0 until numChildren).foldLeft(content, Seq.empty[Node])(
-        (acc, _) => {
-          val x = buildTree(acc._1)
-          (x._1, acc._2 :+ x._2)
-        }
-      )
+      val (rem, children) = (0 until numChildren).foldLeft(content, Seq.empty[Node]){
+        case ((remContent, accChildren), _) =>
+          val treeRes = buildTree(remContent)
+          (treeRes._1, accChildren :+ treeRes._2)
+      }
       val (metadata, extra) = rem.splitAt(numMetadata)
       (extra, Node(children, metadata))
     }
