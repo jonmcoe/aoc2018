@@ -22,40 +22,15 @@ object Problem09 extends BaseProblem (9) {
       value
     }
 
-    def debugPrint() : Unit = {
-      val startVal = value
-      var cur = this
-      print(cur.value)
-      while(cur.next.value != startVal) {
-        print(s" - ${cur.next.value}")
-        cur = cur.next
-      }
-      println()
-    }
-
-    def debugPrintBackwards() : Unit = {
-      val startVal = value
-      var cur = this
-      print(cur.value)
-      while(cur.previous.value != startVal) {
-        print(s" - ${cur.previous.value}")
-        cur = cur.previous
-      }
-      println()
-    }
-  }
-
-  object Linked {
-    def apply[A](initial: A): Linked[A] = {
-      val linked = new Linked(initial, null, null)
-      linked.previous = linked
-      linked.next = linked
-      linked
+    def this(incoming: A) = {
+      this(incoming, null, null)
+      this.next = this
+      this.previous = this
     }
   }
 
   def playGame(numPlayers: Int, lastScore: Int): Long = {
-    val l = Linked(0)
+    val l = new Linked(0)
 
     def playRound(incomingMarble: Int, player: Int, scoreMap: Map[Int, Long], currentPosition: Linked[Int]): Long = {
       if (incomingMarble > lastScore) scoreMap.values.max
