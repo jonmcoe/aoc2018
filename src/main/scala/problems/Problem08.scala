@@ -13,9 +13,9 @@ object Problem08 extends BaseProblem(8) {
         }
     }
 
-    def buildTree(intSeq: List[Int]) : (List[Int], Node) = {
-      val numChildren :: numMetadata :: content = intSeq
-      val (rem, children) = (0 until numChildren).foldLeft(content, Seq.empty[Node]){
+    def buildTree(intList: List[Int]) : (List[Int], Node) = {
+      val numChildren :: numMetadata :: content = intList
+      val (rem, children) = (0 until numChildren).foldLeft(content, List.empty[Node]){
         case ((remContent, accChildren), _) =>
           val treeRes = buildTree(remContent)
           (treeRes._1, accChildren :+ treeRes._2)
