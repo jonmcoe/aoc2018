@@ -13,14 +13,14 @@ object Problem11 extends BaseProblem (11) {
     (((rackID * y) + puzzleInput) * rackID / 100 % 10) - 5
   }
 
-  private val cellTable: IndexedSeq[IndexedSeq[Int]] = (0 until gridSize).map(x => (0 until gridSize).map(y => cellScore(x, y)))
+  private val cellTable: IndexedSeq[IndexedSeq[Int]] = (1 to gridSize).map(x => (1 to gridSize).map(y => cellScore(x, y)))
 
   def squareScore(x: Int, y: Int, size: Int): Int = {
     val included = for {
       i <- 0 until size
       j <- 0 until size
     } yield (x + i, y + j)
-    included.map(t => cellScore(t._1, t._2)).sum
+    included.map(t => cellTable(t._1 - 1)(t._2 - 1)).sum
   }
 
   def allScores(maxSize: Int) = for {
