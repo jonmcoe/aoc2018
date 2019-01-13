@@ -38,6 +38,12 @@ object Problem11 extends BaseProblem (11) {
     y <- 1 to gridSize
   } yield ((x, y), bestSquareScore(x, y, maxSize))
 
-  def solutionA= allStartingPointBestScores(3).filter(_._2._2 == 3).maxBy(_._2._1)
-  def solutionB = allStartingPointBestScores(300).maxBy(_._2._1)
+  def solutionA= {
+    val res = allStartingPointBestScores(3).filter(_._2._2 == 3).maxBy(_._2._1)
+    s"${res._1._1},${res._1._2}"
+  }
+  def solutionB = {
+    val res = allStartingPointBestScores(300).maxBy(_._2._1)
+    s"${res._1._1},${res._1._2},${res._2._2}"
+  }
 }
