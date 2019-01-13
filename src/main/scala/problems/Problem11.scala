@@ -13,7 +13,7 @@ object Problem11 extends BaseProblem (11) {
     (((rackID * y) + puzzleInput) * rackID / 100 % 10) - 5
   }
 
-  private val cellTable: IndexedSeq[IndexedSeq[Int]] = (1 to gridSize).map(x => (1 to gridSize).map(y => cellScore(x, y)))
+  private val cellTable: IndexedSeq[IndexedSeq[Int]] = (1 to gridSize).map(y => (1 to gridSize).map(x => cellScore(x, y)))
 
   def bestSquareScore(x: Int, y: Int, maxSize: Int): (Int, Int) = {
     var best = (Int.MinValue, -1)
@@ -23,8 +23,8 @@ object Problem11 extends BaseProblem (11) {
 
     // this could probably be done with fold instead of mutables
     for(i <- 0 until validSizeLimit) {
-      val addition1 = cellTable(x + i - 1).slice(y -1, y+i-1)
-      val addition2 = (x to x + i).map(cx => cellTable(cx-1)(y+i-1))
+      val addition1 = cellTable(y + i - 1).slice(x - 1, x + i - 1)
+      val addition2 = (y to y + i).map(cy => cellTable(cy - 1)(x + i - 1))
       incremental += addition1.sum + addition2.sum
       if (incremental > best._1) {
         best = (incremental, i + 1)
